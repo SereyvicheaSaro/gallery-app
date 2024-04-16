@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\FileController;
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageUploadController;
 
-Route::get('/gallery', function () {
+Route::get('/', function () {
     return view('home');
+});
+Route::get('/gallery', function () {
+    return view('gallery');
 });
 
 Route::get('/upload', function () {
