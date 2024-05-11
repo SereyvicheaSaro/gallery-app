@@ -4,23 +4,31 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Image;
 
 class ImageUploadController extends Controller
 {
-    public function upload(Request $request)
+    public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // adjust max file size as needed
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $title = $request->title;
         $image = $request->file('image');
-        $imageName = time().'.'.$image->getClientOriginalExtension();
+        $imageName = time() . '.' . $image->getClientOriginalExtension(); 
 
-        // Upload to Minio
-        Storage::disk('minio')->put($imageName, file_get_contents($image));
+        // Store image in MinIO
+        $path = Storage::disk('minio')->put('images/' . $imageName, $image);
 
-        return back()->with('success', 'Image uploaded successfully.');
+        // Save image details (including path) to database
+        $newImage = Image::create([
+            'title' => $request->input('title'),
+            'name' => $imageName,
+            'type' => $image->getClientMimeType(),
+            'path' => $path,
+        ]);
+
+        return response()->json(['message' => 'Image uploaded successfully!', 'image' => $newImage]);
     }
 }
