@@ -9,8 +9,4 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/storeImage', [HomeController::class, 'storeImage']);
-
 Route::post('/upload', [ImageUploadController::class, 'store'])->name('upload.image');
-
-Route::post('/test', [HomeController::class, 'test']);
