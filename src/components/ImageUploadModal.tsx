@@ -52,7 +52,7 @@ const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ visible, toggleModa
     >
       <Form form={form} layout="vertical">
         <Form.Item name="title" label="Title" rules={[{ required: true, message: 'Please enter a title' }]}>
-          <input style={{backgroundColor:"white"}} className="ant-input" />
+          <input style={{backgroundColor:"white", color: "black"}} className="ant-input" />
         </Form.Item>
         <Form.Item name="image" label="Image" rules={[{ required: true, message: 'Please select an image' }]}>
           <Upload
