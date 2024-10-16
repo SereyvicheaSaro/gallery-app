@@ -1,8 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding: 10rem;
 }
 
 .logo {
@@ -34,10 +37,15 @@
 }
 
 .card {
+  background-color: black;
   padding: 2em;
   font-family: 'Times New Roman', Times, serif;
 }
 
 .read-the-docs {
   color: #888;
+}
+
+.gallery{
+  padding: 0 10px;
 }

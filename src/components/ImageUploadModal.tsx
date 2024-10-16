@@ -1,8 +1,9 @@
 // src/components/ImageUploadModal.tsx
 import React, { useState } from 'react';
-import { Modal, Form, Upload, Button, message } from 'antd';
+import { Modal, Form, Upload, Button, message, Input } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { createImage } from '../api';
+// import './ImageUploadModal.css'; // Import the CSS file
 
 interface ImageUploadModalProps {
   visible: boolean;
@@ -12,7 +13,7 @@ interface ImageUploadModalProps {
 
 const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ visible, toggleModal, onUpload }) => {
   const [form] = Form.useForm();
-  const [fileList, setFileList] = useState<any[]>([]);  // Adjust type as per your needs
+  const [fileList, setFileList] = useState<any[]>([]); // Adjust type as per your needs
 
   const handleUpload = async () => {
     try {
@@ -22,10 +23,10 @@ const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ visible, toggleModa
 
       await createImage(formData);
       message.success('Image uploaded successfully');
-      onUpload();  // Refresh images after upload
-      toggleModal();  // Close modal
-      form.resetFields();  // Clear form fields
-      setFileList([]);  // Clear file list
+      onUpload(); // Refresh images after upload
+      toggleModal(); // Close modal
+      form.resetFields(); // Clear form fields
+      setFileList([]); // Clear file list
     } catch (error) {
       console.error('Error uploading image:', error);
       message.error('Failed to upload image');
@@ -38,27 +39,29 @@ const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ visible, toggleModa
 
   return (
     <Modal
+      centered
       title="Upload Image"
       visible={visible}
       onCancel={toggleModal}
       footer={[
-        <Button key="back" onClick={toggleModal}>
+        <Button key="back" onClick={toggleModal} style={{ backgroundColor: 'grey', color: 'white' }}>
           Cancel
         </Button>,
-        <Button key="submit" type="primary" onClick={handleUpload}>
+        <Button key="submit" type="primary" onClick={handleUpload} style={{ backgroundColor: 'green', color: 'white' }}>
           Upload
         </Button>,
       ]}
     >
       <Form form={form} layout="vertical">
         <Form.Item name="title" label="Title" rules={[{ required: true, message: 'Please enter a title' }]}>
-          <input style={{backgroundColor:"white", color: "black"}} className="ant-input" />
+          <Input style={{ backgroundColor: 'white', color: 'black', border: '1px solid black', borderRadius: '3px' }} />
         </Form.Item>
+
         <Form.Item name="image" label="Image" rules={[{ required: true, message: 'Please select an image' }]}>
           <Upload
             fileList={fileList}
             onChange={handleFileChange}
-            beforeUpload={() => false}  // Disable automatic upload
+            beforeUpload={() => false} // Disable automatic upload
           >
             <Button icon={<UploadOutlined />}>Select File</Button>
           </Upload>

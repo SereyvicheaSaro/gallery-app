@@ -17,6 +17,7 @@ const Gallery: React.FC = () => {
   const [images, setImages] = useState<Image[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [fullScreenImage, setFullScreenImage] = useState<string | null>(null);
+  const [hover, setHover] = useState(false);
 
   useEffect(() => {
     fetchImages();
@@ -53,7 +54,7 @@ const Gallery: React.FC = () => {
   };
 
   return (
-    <div className="gallery" style={{ overflowX: 'hidden' }}>
+    <div className="gallery" style={{ overflowX: 'hidden'}}>
       <Row gutter={[16, 16]}>
         {images.map((image) => (
           <Col key={image.id} xs={24} sm={12} md={8} lg={6}>
@@ -67,7 +68,15 @@ const Gallery: React.FC = () => {
       </Row>
 
       <ImageUploadModal visible={showModal} toggleModal={toggleModal} onUpload={fetchImages} />
-      <Button type="primary" icon={<PlusOutlined />} onClick={toggleModal} style={{ margin: '50px 0', backgroundColor: 'green', position: 'absolute', right: '50px' }}>
+      <Button 
+        type="primary" 
+        icon={<PlusOutlined />} 
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onClick={toggleModal} 
+        style={{ margin: '50px 0',backgroundColor: hover ? 'black' : 'green',fontWeight: '300',}}
+        className='bg-red'
+      >
         Add Image
       </Button>
       {fullScreenImage && (
